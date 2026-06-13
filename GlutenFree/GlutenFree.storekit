@@ -1,0 +1,44 @@
+{
+  "identifier" : "B1A2C3D4-0001-0002-0003-000000000001",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_applicationInternalID" : "0",
+    "_developerTeamID" : "0",
+    "_failTransactionsEnabled" : false
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "B1A2C3D4-0001-0002-0003-000000000010",
+      "localizations" : [],
+      "name" : "GlutenFree Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "B1A2C3D4-0001-0002-0003-000000000011",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Full access to verified gluten-free menus across Tokyo.",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.glutenfree.sub.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Premium Monthly",
+          "subscriptionGroupID" : "B1A2C3D4-0001-0002-0003-000000000010",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}

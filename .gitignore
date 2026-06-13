@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Xcode — user-specific state & build output
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Backend config (the Go server lives in a separate repo, but guard anyway)
+app.env
