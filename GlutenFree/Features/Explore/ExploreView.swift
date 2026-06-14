@@ -21,7 +21,7 @@ struct ExploreView: View {
             .background(Theme.page)
             .navigationBarHidden(true)
             .navigationDestination(for: StoreCard.self) { card in
-                StoreDetailView(storeID: card.id, storeName: card.name)
+                StoreDetailView(card: card)
             }
             .task { await vm.start(api: session.api) }
         }

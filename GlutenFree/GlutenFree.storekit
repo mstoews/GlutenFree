@@ -11,26 +11,57 @@
     {
       "id" : "B1A2C3D4-0001-0002-0003-000000000010",
       "localizations" : [],
-      "name" : "GlutenFree Premium",
+      "name" : "Gurufuri Plus",
       "subscriptions" : [
         {
           "adHocOffers" : [],
           "codeOffers" : [],
-          "displayPrice" : "4.99",
+          "displayPrice" : "3800",
           "familyShareable" : false,
           "groupNumber" : 1,
+          "internalID" : "B1A2C3D4-0001-0002-0003-000000000012",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "東京全店のグルテンフリー対応店と全メニューが見放題（年額）。",
+              "displayName" : "Gurufuri＋ 年額",
+              "locale" : "ja_JP"
+            },
+            {
+              "description" : "Full access to verified gluten-free menus across Tokyo (yearly).",
+              "displayName" : "Gurufuri+ Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.glutenfree.sub.annual",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Gurufuri Plus Annual",
+          "subscriptionGroupID" : "B1A2C3D4-0001-0002-0003-000000000010",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "480",
+          "familyShareable" : false,
+          "groupNumber" : 2,
           "internalID" : "B1A2C3D4-0001-0002-0003-000000000011",
           "introductoryOffer" : null,
           "localizations" : [
             {
-              "description" : "Full access to verified gluten-free menus across Tokyo.",
-              "displayName" : "Premium Monthly",
+              "description" : "東京全店のグルテンフリー対応店と全メニューが見放題（月額）。",
+              "displayName" : "Gurufuri＋ 月額",
+              "locale" : "ja_JP"
+            },
+            {
+              "description" : "Full access to verified gluten-free menus across Tokyo (monthly).",
+              "displayName" : "Gurufuri+ Monthly",
               "locale" : "en_US"
             }
           ],
           "productID" : "com.glutenfree.sub.monthly",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "Premium Monthly",
+          "referenceName" : "Gurufuri Plus Monthly",
           "subscriptionGroupID" : "B1A2C3D4-0001-0002-0003-000000000010",
           "type" : "RecurringSubscription"
         }

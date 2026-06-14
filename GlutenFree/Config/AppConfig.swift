@@ -22,5 +22,7 @@ enum AppConfig {
 
     /// StoreKit auto-renewable subscription product identifiers.
     /// Must match App Store Connect (and the local .storekit config for testing).
-    static let subscriptionProductIDs: [String] = ["com.glutenfree.sub.monthly"]
+    static let annualProductID = "com.glutenfree.sub.annual"
+    static let monthlyProductID = "com.glutenfree.sub.monthly"
+    static let subscriptionProductIDs: [String] = [annualProductID, monthlyProductID]
 }

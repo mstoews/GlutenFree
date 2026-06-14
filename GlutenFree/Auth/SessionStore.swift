@@ -31,6 +31,18 @@ final class SessionStore: ObservableObject {
 
     var isSubscribed: Bool { subscription?.isActive ?? false }
 
+    /// Called once at startup. A session restored from the Keychain is already
+    /// authenticated but has no subscription loaded yet — fetch it so gated UI
+    /// (e.g. the store-detail "view menu" CTA) reflects the real status.
+    /// Otherwise fall back to DEBUG autologin.
+    func bootstrap() async {
+        if isAuthenticated {
+            await loadSubscription()
+        } else {
+            await bootstrapAutologin()
+        }
+    }
+
     /// DEBUG-only: auto sign-in when `GF_AUTOLOGIN_EMAIL`/`GF_AUTOLOGIN_PASSWORD`
     /// launch env vars are present (simulator runs / UI tests).
     func bootstrapAutologin() async {

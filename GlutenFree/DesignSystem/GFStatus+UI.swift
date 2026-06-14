@@ -51,4 +51,13 @@ extension GFStatus {
         case .containsHiddenGluten: return "注意"
         }
     }
+
+    /// Reassurance line shown on the store-detail callout.
+    var assuranceBody: String {
+        switch self {
+        case .certified: return "専用調理・検査済み。コンタミ対策あり。"
+        case .onRequest: return "スタッフにGF対応をご相談いただけます。"
+        case .containsHiddenGluten: return "一部メニューに小麦が含まれます。ご注意ください。"
+        }
+    }
 }

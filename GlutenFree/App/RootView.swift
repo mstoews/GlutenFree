@@ -13,6 +13,6 @@ struct RootView: View {
             }
         }
         .animation(.default, value: session.isAuthenticated)
-        .task { await session.bootstrapAutologin() }
+        .task { await session.bootstrap() }
     }
 }
