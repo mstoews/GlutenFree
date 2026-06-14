@@ -90,6 +90,23 @@ final class SessionStore: ObservableObject {
         }
     }
 
+    /// Exchanges an Apple identity token (from `SignInWithAppleButton`) for a
+    /// session via POST /auth/apple. Mirrors password login.
+    func signInWithApple(identityToken: String, email: String?) async {
+        authError = nil
+        isWorking = true
+        defer { isWorking = false }
+        do {
+            let resp = try await api.appleSignIn(identityToken: identityToken, email: email)
+            tokens = StoredTokens(accessToken: resp.accessToken, refreshToken: resp.refreshToken)
+            user = resp.user
+            persist()
+            await loadSubscription()
+        } catch {
+            authError = message(for: error)
+        }
+    }
+
     func logout() {
         tokens = nil
         user = nil

@@ -1,7 +1,9 @@
 import SwiftUI
+import AuthenticationServices
 
 struct AuthView: View {
     @EnvironmentObject private var session: SessionStore
+    @Environment(\.colorScheme) private var colorScheme
     @State private var isRegistering = false
     @State private var email = ""
     @State private var password = ""
@@ -105,18 +107,15 @@ struct AuthView: View {
 
             dividerOr
 
-            Button {
-                session.authError = String(localized: "Appleサインインは近日対応です。")
-            } label: {
-                HStack(spacing: 8) {
-                    Image(systemName: "apple.logo").font(.system(size: 16))
-                    Text("Appleでサインイン").font(.system(size: 16, weight: .semibold))
-                }
-                .frame(maxWidth: .infinity).frame(height: 50)
-                .background(Color.adaptive(light: .black, dark: .white))
-                .foregroundStyle(Color.adaptive(light: .white, dark: .black))
-                .clipShape(RoundedRectangle(cornerRadius: 12))
+            SignInWithAppleButton(.signIn) { request in
+                request.requestedScopes = [.fullName, .email]
+            } onCompletion: { result in
+                handleAppleSignIn(result)
             }
+            .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
+            .frame(height: 50)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .disabled(session.isWorking)
 
             Button {
                 isRegistering.toggle()
@@ -197,6 +196,25 @@ struct AuthView: View {
             } else {
                 await session.login(email: email, password: password)
             }
+        }
+    }
+
+    private func handleAppleSignIn(_ result: Result<ASAuthorization, Error>) {
+        switch result {
+        case .success(let auth):
+            guard let credential = auth.credential as? ASAuthorizationAppleIDCredential,
+                  let tokenData = credential.identityToken,
+                  let identityToken = String(data: tokenData, encoding: .utf8) else {
+                session.authError = String(localized: "Appleサインインに失敗しました。")
+                return
+            }
+            // `email` is only present on the first authorization; forward it so a
+            // new account gets a real address.
+            Task { await session.signInWithApple(identityToken: identityToken, email: credential.email) }
+        case .failure(let error):
+            // A user-initiated cancel isn't an error worth surfacing.
+            if let authError = error as? ASAuthorizationError, authError.code == .canceled { return }
+            session.authError = String(localized: "Appleサインインに失敗しました。")
         }
     }
 }

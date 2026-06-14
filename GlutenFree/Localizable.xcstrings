@@ -1013,6 +1013,17 @@
         }
       }
     },
+    "Appleサインインに失敗しました。": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign in with Apple failed."
+          }
+        }
+      }
+    },
     "Appleサインインは近日対応です。": {
       "extractionState": "manual",
       "localizations": {

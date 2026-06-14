@@ -32,6 +32,11 @@ final class APIClient {
                        body: LoginBody(email: email, password: password), authorized: false)
     }
 
+    func appleSignIn(identityToken: String, email: String?) async throws -> LoginResponse {
+        try await send(path: "/auth/apple", method: "POST",
+                       body: AppleSignInBody(identityToken: identityToken, email: email), authorized: false)
+    }
+
     func refresh(refreshToken: String) async throws -> RefreshResponse {
         try await send(path: "/auth/refresh", method: "POST",
                        body: RefreshBody(refreshToken: refreshToken), authorized: false, allowRefresh: false)
@@ -129,6 +134,14 @@ final class APIClient {
 
 private struct RegisterBody: Encodable { let email: String; let password: String }
 private struct LoginBody: Encodable { let email: String; let password: String }
+private struct AppleSignInBody: Encodable {
+    let identityToken: String
+    let email: String?
+    enum CodingKeys: String, CodingKey {
+        case identityToken = "identity_token"
+        case email
+    }
+}
 private struct VerifyBody: Encodable { let signedTransaction: String } // camelCase matches Apple/backend
 private struct RefreshBody: Encodable {
     let refreshToken: String
