@@ -1,19 +1,15 @@
 import Foundation
 
 enum Formatters {
-    private static let weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-    private static let weekdaysJa = ["日", "月", "火", "水", "木", "金", "土"]
-
-    /// 0 = Sunday … 6 = Saturday.
+    /// Localized full weekday name for the current locale.
+    /// 0 = Sunday … 6 = Saturday (matches the backend convention).
+    /// ja → "月曜日", en → "Monday".
     static func weekday(_ day: Int) -> String {
-        guard day >= 0 && day < weekdays.count else { return "?" }
-        return weekdays[day]
-    }
-
-    /// 0 = 日 … 6 = 土.
-    static func weekdayJa(_ day: Int) -> String {
-        guard day >= 0 && day < weekdaysJa.count else { return "?" }
-        return weekdaysJa[day]
+        guard (0..<7).contains(day) else { return "" }
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        let symbols = formatter.standaloneWeekdaySymbols ?? formatter.weekdaySymbols ?? []
+        return day < symbols.count ? symbols[day] : ""
     }
 
     /// "1100" -> "11:00".

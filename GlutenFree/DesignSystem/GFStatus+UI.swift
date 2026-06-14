@@ -34,30 +34,30 @@ extension GFStatus {
         }
     }
 
-    /// Full Japanese label (e.g. "認証済み").
+    /// Full localized status label (ja "認証済み" / en "Certified").
     var labelJa: String {
         switch self {
-        case .certified: return "認証済み"
-        case .onRequest: return "要相談"
-        case .containsHiddenGluten: return "隠れ小麦あり"
+        case .certified: return String(localized: "認証済み")
+        case .onRequest: return String(localized: "要相談")
+        case .containsHiddenGluten: return String(localized: "隠れ小麦あり")
         }
     }
 
-    /// Short Japanese label for compact badges (e.g. "認証").
+    /// Short localized label for compact badges (ja "認証" / en "OK").
     var shortJa: String {
         switch self {
-        case .certified: return "認証"
-        case .onRequest: return "相談"
-        case .containsHiddenGluten: return "注意"
+        case .certified: return String(localized: "認証")
+        case .onRequest: return String(localized: "相談")
+        case .containsHiddenGluten: return String(localized: "注意")
         }
     }
 
     /// Reassurance line shown on the store-detail callout.
     var assuranceBody: String {
         switch self {
-        case .certified: return "専用調理・検査済み。コンタミ対策あり。"
-        case .onRequest: return "スタッフにGF対応をご相談いただけます。"
-        case .containsHiddenGluten: return "一部メニューに小麦が含まれます。ご注意ください。"
+        case .certified: return String(localized: "専用調理・検査済み。コンタミ対策あり。")
+        case .onRequest: return String(localized: "スタッフにGF対応をご相談いただけます。")
+        case .containsHiddenGluten: return String(localized: "一部メニューに小麦が含まれます。ご注意ください。")
         }
     }
 }

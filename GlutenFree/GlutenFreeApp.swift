@@ -18,6 +18,21 @@ struct GlutenFreeApp: App {
                 .environmentObject(session)
                 .environmentObject(subscriptions)
                 .environmentObject(saved)
+                .preferredColorScheme(Self.forcedColorScheme)
         }
+    }
+
+    /// DEBUG-only: force light/dark via the `GF_FORCE_APPEARANCE` launch env
+    /// (`light`/`dark`) for deterministic screenshots. Otherwise follows the system.
+    private static var forcedColorScheme: ColorScheme? {
+        #if DEBUG
+        switch ProcessInfo.processInfo.environment["GF_FORCE_APPEARANCE"] {
+        case "dark": return .dark
+        case "light": return .light
+        default: return nil
+        }
+        #else
+        return nil
+        #endif
     }
 }

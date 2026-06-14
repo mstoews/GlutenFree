@@ -108,7 +108,7 @@ struct StoreDetailView: View {
     private var openPill: some View {
         HStack(spacing: 4) {
             Circle().fill(openState.isOpen ? Theme.brand600 : Theme.hint).frame(width: 7, height: 7)
-            Text(openState.labelJa).font(.system(size: 12, weight: .bold))
+            Text(openState.label).font(.system(size: 12, weight: .bold))
         }
         .foregroundStyle(openState.isOpen ? Theme.brand700 : Theme.sub)
         .padding(.horizontal, 9).padding(.vertical, 4)
@@ -170,7 +170,7 @@ struct StoreDetailView: View {
     }
 
     @ViewBuilder
-    private func accessRow(icon: String, label: String, value: String,
+    private func accessRow(icon: String, label: LocalizedStringKey, value: String,
                            tappable: Bool, action: (() -> Void)?) -> some View {
         let content = HStack(spacing: 12) {
             Image(systemName: icon).font(.system(size: 15)).foregroundStyle(Theme.brand).frame(width: 22)
@@ -207,7 +207,7 @@ struct StoreDetailView: View {
             VStack(spacing: 0) {
                 ForEach(Array(hours.enumerated()), id: \.element.id) { index, hour in
                     HStack {
-                        Text(Formatters.weekdayJa(hour.day) + "曜日")
+                        Text(Formatters.weekday(hour.day))
                             .font(.system(size: 14)).foregroundStyle(Theme.ink)
                         Spacer()
                         Text("\(Formatters.clock(hour.open)) – \(Formatters.clock(hour.close))")
@@ -225,7 +225,7 @@ struct StoreDetailView: View {
         }
     }
 
-    private func sectionTitle(_ text: String) -> some View {
+    private func sectionTitle(_ text: LocalizedStringKey) -> some View {
         Text(text)
             .font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.sub)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -283,7 +283,7 @@ struct StoreDetailView: View {
         .background(Theme.card)
     }
 
-    private func ctaLabel(_ text: String, systemImage: String) -> some View {
+    private func ctaLabel(_ text: LocalizedStringKey, systemImage: String) -> some View {
         HStack(spacing: 8) {
             Image(systemName: systemImage).font(.system(size: 15, weight: .semibold))
             Text(text).font(.system(size: 16, weight: .bold))

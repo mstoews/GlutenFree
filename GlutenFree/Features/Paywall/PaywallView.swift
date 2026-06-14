@@ -18,19 +18,19 @@ struct PaywallView: View {
     // StoreKit product by id for the actual purchase.
     private struct Plan: Identifiable {
         let id: String
-        let priceText: String
-        let periodText: String
-        let subText: String
+        let isAnnual: Bool
+        let priceText: String   // verbatim price (currency), not localized
         let recommended: Bool
-        let renewNote: String
-        var ctaText: String { "\(priceText)\(periodText)で続ける" }
+        let renewNote: String   // verbatim; interpolated into the localized fine-print
+
+        var period: LocalizedStringKey { isAnnual ? "/年" : "/月" }
+        var subText: LocalizedStringKey { isAnnual ? "¥317/月 相当・2か月分お得" : "いつでもキャンセル可能" }
+        var ctaText: LocalizedStringKey { isAnnual ? "¥3,800/年で続ける" : "¥480/月で続ける" }
     }
 
     private let plans: [Plan] = [
-        Plan(id: AppConfig.annualProductID, priceText: "¥3,800", periodText: "/年",
-             subText: "¥317/月 相当・2か月分お得", recommended: true, renewNote: "¥3,800/年"),
-        Plan(id: AppConfig.monthlyProductID, priceText: "¥480", periodText: "/月",
-             subText: "いつでもキャンセル可能", recommended: false, renewNote: "¥480/月"),
+        Plan(id: AppConfig.annualProductID, isAnnual: true, priceText: "¥3,800", recommended: true, renewNote: "¥3,800/年"),
+        Plan(id: AppConfig.monthlyProductID, isAnnual: false, priceText: "¥480", recommended: false, renewNote: "¥480/月"),
     ]
 
     private var selectedPlan: Plan { plans.first { $0.id == selectedPlanID } ?? plans[0] }
@@ -157,8 +157,8 @@ struct PaywallView: View {
             }
             VStack(alignment: .leading, spacing: 3) {
                 HStack(alignment: .firstTextBaseline, spacing: 5) {
-                    Text(plan.priceText).font(.system(size: 20, weight: .heavy)).foregroundStyle(Theme.ink)
-                    Text(plan.periodText).font(.system(size: 13)).foregroundStyle(Theme.sub)
+                    Text(verbatim: plan.priceText).font(.system(size: 20, weight: .heavy)).foregroundStyle(Theme.ink)
+                    Text(plan.period).font(.system(size: 13)).foregroundStyle(Theme.sub)
                 }
                 Text(plan.subText).font(.system(size: 12)).foregroundStyle(Theme.sub)
             }

@@ -11,8 +11,10 @@ private struct StoredTokens: Codable {
 /// attach the bearer token and refresh once on 401.
 @MainActor
 final class SessionStore: ObservableObject {
-    @Published private(set) var user: AuthUser?
+    @Published private(set) var user: AuthUser? { didSet { persistUser() } }
     @Published private(set) var subscription: SubscriptionStatus?
+
+    private static let cachedUserKey = "gf.cachedUser"
     @Published private(set) var isAuthenticated = false
     @Published var authError: String?
     @Published var isWorking = false
@@ -143,6 +145,20 @@ final class SessionStore: ObservableObject {
         if let data = KeychainStore.load(),
            let stored = try? JSONDecoder().decode(StoredTokens.self, from: data) {
             tokens = stored
+        }
+        // The user object isn't security-sensitive (the user's own email); cache
+        // it so a restored session shows the real profile, not "Guest".
+        if let data = UserDefaults.standard.data(forKey: Self.cachedUserKey),
+           let cached = try? JSONDecoder().decode(AuthUser.self, from: data) {
+            user = cached
+        }
+    }
+
+    private func persistUser() {
+        if let user, let data = try? JSONEncoder().encode(user) {
+            UserDefaults.standard.set(data, forKey: Self.cachedUserKey)
+        } else {
+            UserDefaults.standard.removeObject(forKey: Self.cachedUserKey)
         }
     }
 

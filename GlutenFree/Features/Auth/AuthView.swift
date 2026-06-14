@@ -106,7 +106,7 @@ struct AuthView: View {
             dividerOr
 
             Button {
-                session.authError = "Appleサインインは近日対応です。"
+                session.authError = String(localized: "Appleサインインは近日対応です。")
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "apple.logo").font(.system(size: 16))
@@ -141,7 +141,7 @@ struct AuthView: View {
         .padding(.bottom, 24)
     }
 
-    private func field(icon: String, placeholder: String, text: Binding<String>, secure: Bool) -> some View {
+    private func field(icon: String, placeholder: LocalizedStringKey, text: Binding<String>, secure: Bool) -> some View {
         HStack(spacing: 10) {
             Image(systemName: icon).foregroundStyle(Theme.hint).frame(width: 18)
             if secure {

@@ -3,9 +3,9 @@ import SwiftUI
 /// Simple empty/error placeholder (ContentUnavailableView is iOS 17-only).
 struct InfoStateView: View {
     let systemImage: String
-    let title: String
+    let title: LocalizedStringKey
     var message: String? = nil
-    var actionTitle: String? = nil
+    var actionTitle: LocalizedStringKey? = nil
     var action: (() -> Void)? = nil
 
     var body: some View {

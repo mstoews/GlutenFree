@@ -6,11 +6,11 @@ enum OpenState {
     case closed
     case unknown   // no hours on file
 
-    var labelJa: String {
+    var label: String {
         switch self {
-        case .open: return "営業中"
-        case .closed: return "営業時間外"
-        case .unknown: return "時間未掲載"
+        case .open: return String(localized: "営業中")
+        case .closed: return String(localized: "営業時間外")
+        case .unknown: return String(localized: "時間未掲載")
         }
     }
 

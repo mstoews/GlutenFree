@@ -55,7 +55,7 @@ struct MenuView: View {
                 .buttonStyle(.plain)
                 VStack(alignment: .leading, spacing: 1) {
                     Text(storeName).font(.system(size: 17, weight: .bold)).foregroundStyle(Theme.ink).lineLimit(1)
-                    Text(subtitle).font(.system(size: 12)).foregroundStyle(Theme.sub)
+                    subtitle.font(.system(size: 12)).foregroundStyle(Theme.sub)
                 }
                 Spacer(minLength: 0)
             }
@@ -67,8 +67,8 @@ struct MenuView: View {
         .background(Theme.page)
     }
 
-    private var subtitle: String {
-        vm.items.isEmpty ? "メニュー" : "メニュー・全\(vm.items.count)品"
+    private var subtitle: Text {
+        vm.items.isEmpty ? Text("メニュー") : Text("メニュー・全\(vm.items.count)品")
     }
 
     private var legend: some View {

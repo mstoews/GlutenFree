@@ -187,10 +187,11 @@
 				};
 			};
 			buildConfigurationList = 48DC50B32FDD81B5003C9982 /* Build configuration list for PBXProject "GlutenFree" */;
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ja,
 				Base,
 			);
 			mainGroup = 48DC50AF2FDD81B5003C9982;
