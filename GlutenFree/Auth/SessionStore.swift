@@ -31,6 +31,18 @@ final class SessionStore: ObservableObject {
 
     var isSubscribed: Bool { subscription?.isActive ?? false }
 
+    /// DEBUG-only: auto sign-in when `GF_AUTOLOGIN_EMAIL`/`GF_AUTOLOGIN_PASSWORD`
+    /// launch env vars are present (simulator runs / UI tests).
+    func bootstrapAutologin() async {
+        #if DEBUG
+        let env = ProcessInfo.processInfo.environment
+        guard !isAuthenticated,
+              let email = env["GF_AUTOLOGIN_EMAIL"],
+              let password = env["GF_AUTOLOGIN_PASSWORD"] else { return }
+        await login(email: email, password: password)
+        #endif
+    }
+
     // MARK: Auth actions
 
     func register(email: String, password: String) async {

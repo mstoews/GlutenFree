@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>グルフリ Gurufuri — GF restaurant finder</title>
+
+  <!-- NobleLedger design tokens (Inter var, emerald/slate, spacing/radii) -->
+  <link rel="stylesheet" href="_ds/nobleledger-design-system-ff7a9f2e-4ae5-4bac-970c-e23c3aa963a7/colors_and_type.css" />
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #e9eaee; -webkit-font-smoothing: antialiased; }
+    #root { width: 100%; }
+    @keyframes gfFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes gfSlideUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    /* hide horizontal scrollbars on chip rows */
+    *::-webkit-scrollbar { height: 0; width: 0; }
+  </style>
+
+  <!-- React + Babel (pinned) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- NobleLedger DS bundle (plain JS — provides IOSDevice/IOSStatusBar etc.) -->
+  <script src="_ds/nobleledger-design-system-ff7a9f2e-4ae5-4bac-970c-e23c3aa963a7/_ds_bundle.js"></script>
+</head>
+<body>
+  <template id="__bundler_thumbnail">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <rect width="100" height="100" fill="#047857"/>
+      <path d="M30 70c0-22 16-37 44-40 0 28-16 43-37 43-3 0-7-1-7-3z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M42 58c6-9 14-15 25-19" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+  </template>
+
+  <div id="root"></div>
+
+  <!-- Tweaks shell -->
+  <script type="text/babel" src="app/tweaks-panel.jsx"></script>
+
+  <!-- App modules (order matters: data → helpers → components → screens → app) -->
+  <script type="text/babel" src="app/data.jsx"></script>
+  <script type="text/babel" src="app/icons.jsx"></script>
+  <script type="text/babel" src="app/components.jsx"></script>
+  <script type="text/babel" src="app/cards.jsx"></script>
+  <script type="text/babel" src="app/screens-auth-list.jsx"></script>
+  <script type="text/babel" src="app/screens-detail.jsx"></script>
+  <script type="text/babel" src="app/screens-paywall.jsx"></script>
+  <script type="text/babel" src="app/app.jsx"></script>
+</body>
+</html>

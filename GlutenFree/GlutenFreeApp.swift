@@ -4,6 +4,7 @@ import SwiftUI
 struct GlutenFreeApp: App {
     @StateObject private var session: SessionStore
     @StateObject private var subscriptions: SubscriptionManager
+    @StateObject private var saved = SavedStore()
 
     init() {
         let session = SessionStore()
@@ -16,6 +17,7 @@ struct GlutenFreeApp: App {
             RootView()
                 .environmentObject(session)
                 .environmentObject(subscriptions)
+                .environmentObject(saved)
         }
     }
 }

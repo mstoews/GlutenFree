@@ -52,8 +52,18 @@ struct StoreCard: Codable, Identifiable, Hashable {
     let id: String
     let name: String
     let ward: Ward
-    let isGfOriented: Bool?   // paid tier only
-    let address: String?     // paid tier only
+    let isGfOriented: Bool
+    let gfStatus: String
+    let cuisine: String
+    let priceLevel: Int
+    let rating: Double
+    let reviewCount: Int
+    let nearestStation: String
+    let blurb: String
+    let address: String
+    let photoUrl: String?
+
+    var status: GFStatus { GFStatus(rawValue: gfStatus) ?? .onRequest }
 }
 
 struct StoreListResponse: Codable {

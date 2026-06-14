@@ -2,18 +2,30 @@ import Combine
 import Foundation
 
 @MainActor
-final class StoresViewModel: ObservableObject {
+final class ExploreViewModel: ObservableObject {
     @Published var wards: [Ward] = []
     @Published var stores: [StoreCard] = []
     @Published var selectedWardID: Int?
+    @Published var layout: StoreLayout = .rich
+    @Published var searchText = ""
     @Published var isLoading = false
     @Published var isLoadingMore = false
     @Published var errorMessage: String?
-    @Published private(set) var tier = "free"
 
     private var nextCursor: String?
     private var api: APIClient?
     private var didLoad = false
+
+    var filteredStores: [StoreCard] {
+        guard !searchText.isEmpty else { return stores }
+        let q = searchText.lowercased()
+        return stores.filter {
+            $0.name.lowercased().contains(q)
+            || $0.cuisine.lowercased().contains(q)
+            || $0.ward.nameEn.lowercased().contains(q)
+            || $0.ward.nameJa.contains(searchText)
+        }
+    }
 
     func start(api: APIClient) async {
         self.api = api
@@ -34,7 +46,6 @@ final class StoresViewModel: ObservableObject {
         errorMessage = nil
         do {
             let resp = try await api.stores(wardID: selectedWardID, cursor: nil)
-            tier = resp.tier
             stores = resp.stores
             nextCursor = resp.nextCursor
         } catch {
