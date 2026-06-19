@@ -3,6 +3,7 @@ import SwiftUI
 struct AccountView: View {
     @EnvironmentObject private var session: SessionStore
     @EnvironmentObject private var subscriptions: SubscriptionManager
+    @EnvironmentObject private var language: LanguageManager
     @Environment(\.openURL) private var openURL
     @State private var showPaywall = false
     @State private var showComingSoon = false
@@ -15,6 +16,7 @@ struct AccountView: View {
                     VStack(spacing: 16) {
                         profileCard
                         subscriptionCard
+                        languageCard
                         settingsCard
                         footer
                     }
@@ -130,12 +132,34 @@ struct AccountView: View {
 
     private var subscriptionFootnote: Text {
         if session.isSubscribed {
-            if let renews = Formatters.date(session.subscription?.subExpiresAt) {
+            if let renews = Formatters.date(session.subscription?.subExpiresAt, locale: language.locale) {
                 return Text("次回更新 \(renews)")
             }
             return Text("ご利用中")
         }
         return Text("月額 ¥480 から")
+    }
+
+    // MARK: Language
+
+    private var languageCard: some View {
+        HStack(spacing: 12) {
+            Image(systemName: "globe").font(.system(size: 15)).foregroundStyle(Theme.brand).frame(width: 22)
+            Text(language.language == .ja ? "言語" : "Language")
+                .font(.system(size: 15)).foregroundStyle(Theme.ink)
+            Spacer(minLength: 12)
+            Picker("", selection: $language.language) {
+                ForEach(LanguageManager.Language.allCases) { lang in
+                    Text(verbatim: lang.displayName).tag(lang)
+                }
+            }
+            .pickerStyle(.segmented)
+            .fixedSize()
+        }
+        .padding(.horizontal, 14).padding(.vertical, 10)
+        .background(Theme.card)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 16).stroke(Theme.separator, lineWidth: 0.5))
     }
 
     // MARK: Settings
@@ -196,6 +220,7 @@ private struct ProfileDetailView: View {
     @EnvironmentObject private var session: SessionStore
     @EnvironmentObject private var subscriptions: SubscriptionManager
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
 
     var body: some View {
         ZStack {
@@ -245,7 +270,7 @@ private struct ProfileDetailView: View {
             rowDivider
             infoRow(label: "ステータス",
                     value: Text(session.isSubscribed ? "メンバー（Gurufuri+）" : "無料プラン"))
-            if let renews = Formatters.date(session.subscription?.subExpiresAt) {
+            if let renews = Formatters.date(session.subscription?.subExpiresAt, locale: locale) {
                 rowDivider
                 infoRow(label: session.isSubscribed ? "次回更新" : "有効期限", value: Text(verbatim: renews))
             }

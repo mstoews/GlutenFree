@@ -205,7 +205,7 @@ struct AuthView: View {
             guard let credential = auth.credential as? ASAuthorizationAppleIDCredential,
                   let tokenData = credential.identityToken,
                   let identityToken = String(data: tokenData, encoding: .utf8) else {
-                session.authError = String(localized: "Appleサインインに失敗しました。")
+                session.authError = NSLocalizedString("Appleサインインに失敗しました。", comment: "")
                 return
             }
             // `email` is only present on the first authorization; forward it so a
@@ -214,7 +214,7 @@ struct AuthView: View {
         case .failure(let error):
             // A user-initiated cancel isn't an error worth surfacing.
             if let authError = error as? ASAuthorizationError, authError.code == .canceled { return }
-            session.authError = String(localized: "Appleサインインに失敗しました。")
+            session.authError = NSLocalizedString("Appleサインインに失敗しました。", comment: "")
         }
     }
 }

@@ -4,6 +4,7 @@ struct WardChips: View {
     let wards: [Ward]
     let selected: Int?
     let onSelect: (Int?) -> Void
+    @Environment(\.locale) private var locale
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -19,7 +20,7 @@ struct WardChips: View {
     }
 
     private func wardName(_ ward: Ward) -> String {
-        Locale.current.language.languageCode?.identifier == "ja" ? ward.nameJa : ward.nameEn
+        locale.language.languageCode?.identifier == "ja" ? ward.nameJa : ward.nameEn
     }
 
     private func chip(label: Text, isSelected: Bool, action: @escaping () -> Void) -> some View {

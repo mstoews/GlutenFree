@@ -8,9 +8,9 @@ enum OpenState {
 
     var label: String {
         switch self {
-        case .open: return String(localized: "営業中")
-        case .closed: return String(localized: "営業時間外")
-        case .unknown: return String(localized: "時間未掲載")
+        case .open: return NSLocalizedString("営業中", comment: "")
+        case .closed: return NSLocalizedString("営業時間外", comment: "")
+        case .unknown: return NSLocalizedString("時間未掲載", comment: "")
         }
     }
 

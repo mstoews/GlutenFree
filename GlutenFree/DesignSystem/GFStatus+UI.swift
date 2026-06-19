@@ -37,27 +37,27 @@ extension GFStatus {
     /// Full localized status label (ja "認証済み" / en "Certified").
     var labelJa: String {
         switch self {
-        case .certified: return String(localized: "認証済み")
-        case .onRequest: return String(localized: "要相談")
-        case .containsHiddenGluten: return String(localized: "隠れ小麦あり")
+        case .certified: return NSLocalizedString("認証済み", comment: "")
+        case .onRequest: return NSLocalizedString("要相談", comment: "")
+        case .containsHiddenGluten: return NSLocalizedString("隠れ小麦あり", comment: "")
         }
     }
 
     /// Short localized label for compact badges (ja "認証" / en "OK").
     var shortJa: String {
         switch self {
-        case .certified: return String(localized: "認証")
-        case .onRequest: return String(localized: "相談")
-        case .containsHiddenGluten: return String(localized: "注意")
+        case .certified: return NSLocalizedString("認証", comment: "")
+        case .onRequest: return NSLocalizedString("相談", comment: "")
+        case .containsHiddenGluten: return NSLocalizedString("注意", comment: "")
         }
     }
 
     /// Reassurance line shown on the store-detail callout.
     var assuranceBody: String {
         switch self {
-        case .certified: return String(localized: "専用調理・検査済み。コンタミ対策あり。")
-        case .onRequest: return String(localized: "スタッフにGF対応をご相談いただけます。")
-        case .containsHiddenGluten: return String(localized: "一部メニューに小麦が含まれます。ご注意ください。")
+        case .certified: return NSLocalizedString("専用調理・検査済み。コンタミ対策あり。", comment: "")
+        case .onRequest: return NSLocalizedString("スタッフにGF対応をご相談いただけます。", comment: "")
+        case .containsHiddenGluten: return NSLocalizedString("一部メニューに小麦が含まれます。ご注意ください。", comment: "")
         }
     }
 }

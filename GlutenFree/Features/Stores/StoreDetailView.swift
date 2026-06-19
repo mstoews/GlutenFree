@@ -5,6 +5,7 @@ struct StoreDetailView: View {
     @EnvironmentObject private var saved: SavedStore
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(\.locale) private var locale
 
     let card: StoreCard
 
@@ -207,7 +208,7 @@ struct StoreDetailView: View {
             VStack(spacing: 0) {
                 ForEach(Array(hours.enumerated()), id: \.element.id) { index, hour in
                     HStack {
-                        Text(Formatters.weekday(hour.day))
+                        Text(Formatters.weekday(hour.day, locale: locale))
                             .font(.system(size: 14)).foregroundStyle(Theme.ink)
                         Spacer()
                         Text("\(Formatters.clock(hour.open)) – \(Formatters.clock(hour.close))")
