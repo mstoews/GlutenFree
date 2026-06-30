@@ -35,6 +35,26 @@ struct PaywallView: View {
 
     private var selectedPlan: Plan { plans.first { $0.id == selectedPlanID } ?? plans[0] }
 
+    // MARK: Trial helpers
+
+    private var introOffer: Product.SubscriptionOffer? {
+        guard subscriptions.trialEligible else { return nil }
+        return subscriptions.products
+            .first { $0.id == AppConfig.annualProductID }?
+            .subscription?.introductoryOffer
+    }
+
+    private func trialLabel(_ offer: Product.SubscriptionOffer) -> String {
+        let total = offer.period.value * offer.periodCount
+        switch offer.period.unit {
+        case .day:   return "\(total)日間無料"
+        case .week:  return "\(total)週間無料"
+        case .month: return "\(total)ヶ月無料"
+        case .year:  return "\(total)年間無料"
+        @unknown default: return "無料トライアル"
+        }
+    }
+
     private let features = [
         "全店舗の詳細とメニューを閲覧",
         "品目ごとのGFステータスと注意点",
@@ -50,6 +70,7 @@ struct PaywallView: View {
                 ScrollView {
                     VStack(spacing: 18) {
                         featureList
+                        if let offer = introOffer { trialBanner(offer) }
                         VStack(spacing: 10) { ForEach(plans) { planCard($0) } }
                         finePrint
                         if let error = subscriptions.errorMessage {
@@ -141,6 +162,28 @@ struct PaywallView: View {
         }
     }
 
+    // MARK: Trial banner
+
+    private func trialBanner(_ offer: Product.SubscriptionOffer) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: "gift.fill")
+                .font(.system(size: 17, weight: .semibold)).foregroundStyle(Theme.brand)
+                .frame(width: 36, height: 36)
+                .background(Theme.brandSoft).clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            VStack(alignment: .leading, spacing: 3) {
+                Text(verbatim: "\(trialLabel(offer))体験できます")
+                    .font(.system(size: 14, weight: .bold)).foregroundStyle(Theme.ink)
+                Text("年間プランを選んでください")
+                    .font(.system(size: 12)).foregroundStyle(Theme.sub)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(14)
+        .background(Theme.brandSoft)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(Theme.brand.opacity(0.3), lineWidth: 1))
+    }
+
     // MARK: Plan cards
 
     private func planCard(_ plan: Plan) -> some View {
@@ -160,7 +203,12 @@ struct PaywallView: View {
                     Text(verbatim: plan.priceText).font(.system(size: 20, weight: .heavy)).foregroundStyle(Theme.ink)
                     Text(plan.period).font(.system(size: 13)).foregroundStyle(Theme.sub)
                 }
-                Text(plan.subText).font(.system(size: 12)).foregroundStyle(Theme.sub)
+                if plan.isAnnual, let offer = introOffer {
+                    Text(verbatim: trialLabel(offer))
+                        .font(.system(size: 12, weight: .semibold)).foregroundStyle(Theme.brand700)
+                } else {
+                    Text(plan.subText).font(.system(size: 12)).foregroundStyle(Theme.sub)
+                }
             }
             Spacer(minLength: 0)
             if plan.recommended {
@@ -196,7 +244,11 @@ struct PaywallView: View {
             Button(action: purchaseSelected) {
                 HStack(spacing: 8) {
                     Image(systemName: "apple.logo").font(.system(size: 15, weight: .semibold))
-                    Text(selectedPlan.ctaText).font(.system(size: 16, weight: .bold))
+                    if selectedPlan.isAnnual, let offer = introOffer {
+                        Text(verbatim: "\(trialLabel(offer))で試す").font(.system(size: 16, weight: .bold))
+                    } else {
+                        Text(selectedPlan.ctaText).font(.system(size: 16, weight: .bold))
+                    }
                 }
                 .frame(maxWidth: .infinity).frame(height: 52)
                 .background(Theme.brand).foregroundStyle(.white)

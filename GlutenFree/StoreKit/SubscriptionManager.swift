@@ -9,6 +9,7 @@ import StoreKit
 final class SubscriptionManager: ObservableObject {
     @Published private(set) var products: [Product] = []
     @Published private(set) var isLoadingProducts = false
+    @Published private(set) var trialEligible = false
     @Published var isPurchasing = false
     @Published var errorMessage: String?
 
@@ -29,6 +30,10 @@ final class SubscriptionManager: ObservableObject {
         do {
             products = try await Product.products(for: AppConfig.subscriptionProductIDs)
                 .sorted { $0.price < $1.price }
+            if let annual = products.first(where: { $0.id == AppConfig.annualProductID }),
+               annual.subscription?.introductoryOffer != nil {
+                trialEligible = (try? await annual.subscription?.isEligibleForIntroOffer) ?? false
+            }
         } catch {
             errorMessage = error.localizedDescription
         }
