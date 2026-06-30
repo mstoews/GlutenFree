@@ -175,6 +175,11 @@
 				TargetAttributes = {
 					48DC50B72FDD81B5003C9982 = {
 						CreatedOnToolsVersion = 26.5;
+						SystemCapabilities = {
+							com.apple.InAppPurchase = {
+								enabled = 1;
+							};
+						};
 					};
 					48DC50C42FDD81B8003C9982 = {
 						CreatedOnToolsVersion = 26.5;
