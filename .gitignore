@@ -18,3 +18,7 @@ build/
 
 # Backend config (the Go server lives in a separate repo, but guard anyway)
 app.env
+
+# App Store Connect API keys — never commit these
+*.p8
+asc.env
