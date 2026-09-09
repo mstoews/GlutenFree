@@ -22,3 +22,6 @@ app.env
 # App Store Connect API keys — never commit these
 *.p8
 asc.env
+
+# Captured App Store screenshots — regenerate with scripts/appstore_screenshots.sh
+screenshots/
